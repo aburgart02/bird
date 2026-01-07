@@ -38,7 +38,7 @@ CREATE TABLE `users` (
   `id` binary(16) NOT NULL,
   `name` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `created` int NOT NULL,
   `last_visit_id` binary(16) DEFAULT NULL,
   PRIMARY KEY (`id`),

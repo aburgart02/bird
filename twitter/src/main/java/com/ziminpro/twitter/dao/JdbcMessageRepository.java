@@ -26,7 +26,7 @@ public class JdbcMessageRepository implements MessageRepository {
                 messageId.toString());
 
         // better to return empty message instead of null (for automatic processing)
-        return Optional.ofNullable(messages.getFirst()).orElse(new Message());
+        return messages.isEmpty() ? new Message() : messages.get(0);
     }
 
     @Override

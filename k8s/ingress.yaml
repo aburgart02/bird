@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bird-ingress-api
+  namespace: bird
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /api/ums(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ums-service
+                port:
+                  number: 8081
+          - path: /api/twitter(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: twitter-service
+                port:
+                  number: 8082
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bird-ingress-front
+  namespace: bird
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: front-service
+                port:
+                  number: 80

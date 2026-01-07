@@ -26,6 +26,9 @@ public class JdbcSupsriptionRepository implements SubscriptionRepository {
 
         try {
             subscription.getProducers().forEach(producerId -> {
+                if (producerId == null) {
+                    return;
+                }
                 if (jdbcMessageRepository.createProducer(producerId) != null) {
                     jdbcTemplate.update(Constants.CREATE_SUBSCRIPTION, subscription.getSubscriber().toString(),
                             producerId.toString());
@@ -51,13 +54,24 @@ public class JdbcSupsriptionRepository implements SubscriptionRepository {
                 subscriberId.toString());
 
         Subscription subscription = new Subscription();
-        for (Subscription oSubscriptions : subscriptions) {
-            if (subscription.getSubscriber() == null) {
-                subscription.setSubscriber(oSubscriptions.getSubscriber());
+        for (Subscription row : subscriptions) {
+            if (row == null) {
+                continue;
             }
-            subscription.addProducer(oSubscriptions.getProducers().getFirst());
+
+            if (subscription.getSubscriber() == null) {
+                subscription.setSubscriber(row.getSubscriber());
+            }
+
+            List<UUID> producers = row.getProducers();
+            if (producers != null && !producers.isEmpty()) {
+                UUID producerId = producers.get(0);
+                if (producerId != null) {
+                    subscription.addProducer(producerId);
+                }
+            }
         }
-        // better to return empty message instead of null (for automatic processing)
+
         return subscription;
     }
 
