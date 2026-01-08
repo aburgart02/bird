@@ -46,7 +46,7 @@ export default function GitHubCallback() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                bgcolor: 'background.default',
+                background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%)',
             }}
         >
             {error ? (

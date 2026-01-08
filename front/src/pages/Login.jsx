@@ -44,9 +44,6 @@ export default function Login() {
             if (response.data.token) {
                 localStorage.setItem('token', response.data.token);
                 navigate('/');
-            } else if (response.data.code === '200') {
-                localStorage.setItem('token', response.data.data);
-                navigate('/');
             } else {
                 setError(response.data.message || 'Ошибка входа');
             }
@@ -70,33 +67,7 @@ export default function Login() {
                 justifyContent: 'center',
                 background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%)',
                 position: 'relative',
-                overflow: 'hidden',
-                '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    width: '600px',
-                    height: '600px',
-                    background: 'radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%)',
-                    top: '-200px',
-                    right: '-200px',
-                    borderRadius: '50%',
-                    animation: 'pulse 8s ease-in-out infinite',
-                },
-                '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    width: '500px',
-                    height: '500px',
-                    background: 'radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%)',
-                    bottom: '-150px',
-                    left: '-150px',
-                    borderRadius: '50%',
-                    animation: 'pulse 10s ease-in-out infinite reverse',
-                },
-                '@keyframes pulse': {
-                    '0%, 100%': { transform: 'scale(1)', opacity: 0.5 },
-                    '50%': { transform: 'scale(1.1)', opacity: 0.8 },
-                },
+                overflow: 'hidden'
             }}
         >
             <Card

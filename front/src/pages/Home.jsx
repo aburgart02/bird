@@ -30,11 +30,8 @@ export default function Home() {
                 const response = await authService.getCurrentUser();
                 if (response.data.data) {
                     setUser(response.data.data);
-                } else if (response.data.email) {
-                    setUser(response.data);
                 }
             } catch (err) {
-                console.error('Failed to fetch user:', err);
                 localStorage.removeItem('token');
                 navigate('/login');
             } finally {
@@ -42,7 +39,7 @@ export default function Home() {
             }
         };
 
-        fetchUser();
+        fetchUser().then();
     }, [navigate]);
 
     const handleLogout = () => {
@@ -75,27 +72,7 @@ export default function Home() {
                 justifyContent: 'center',
                 background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%)',
                 position: 'relative',
-                overflow: 'hidden',
-                '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    width: '800px',
-                    height: '800px',
-                    background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%)',
-                    top: '-400px',
-                    right: '-400px',
-                    borderRadius: '50%',
-                },
-                '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    width: '600px',
-                    height: '600px',
-                    background: 'radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%)',
-                    bottom: '-300px',
-                    left: '-300px',
-                    borderRadius: '50%',
-                },
+                overflow: 'hidden'
             }}
         >
             <Card
@@ -148,7 +125,7 @@ export default function Home() {
                             {user.roles.map((role, index) => (
                                 <Chip
                                     key={index}
-                                    label={role.role || role.name || role}
+                                    label={role.role}
                                     color="primary"
                                     variant="outlined"
                                     size="small"

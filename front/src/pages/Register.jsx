@@ -55,7 +55,8 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validateForm()) return;
+        if (!validateForm())
+            return;
 
         setLoading(true);
         setError('');
@@ -68,9 +69,6 @@ export default function Register() {
             );
             if (response.data.token) {
                 localStorage.setItem('token', response.data.token);
-                navigate('/');
-            } else if (response.data.code === '201' || response.data.code === '200') {
-                localStorage.setItem('token', response.data.data);
                 navigate('/');
             } else {
                 setError(response.data.message || 'Ошибка регистрации');
@@ -96,33 +94,7 @@ export default function Register() {
                 background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%)',
                 position: 'relative',
                 overflow: 'hidden',
-                py: 4,
-                '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    width: '600px',
-                    height: '600px',
-                    background: 'radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, transparent 70%)',
-                    top: '-200px',
-                    left: '-200px',
-                    borderRadius: '50%',
-                    animation: 'pulse 8s ease-in-out infinite',
-                },
-                '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    width: '500px',
-                    height: '500px',
-                    background: 'radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%)',
-                    bottom: '-150px',
-                    right: '-150px',
-                    borderRadius: '50%',
-                    animation: 'pulse 10s ease-in-out infinite reverse',
-                },
-                '@keyframes pulse': {
-                    '0%, 100%': { transform: 'scale(1)', opacity: 0.5 },
-                    '50%': { transform: 'scale(1.1)', opacity: 0.8 },
-                },
+                py: 4
             }}
         >
             <Card
