@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, CircularProgress, Typography, Alert } from '@mui/material';
 import { authService } from '../services/api';
@@ -7,6 +7,7 @@ export default function GitHubCallback() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const requestSent = useRef(false);
 
     useEffect(() => {
         const code = searchParams.get('code');
@@ -16,24 +17,25 @@ export default function GitHubCallback() {
             return;
         }
 
+        if (requestSent.current)
+            return;
+        requestSent.current = true;
+
         const handleCallback = async () => {
             try {
                 const response = await authService.githubLogin(code);
                 if (response.data.token) {
                     localStorage.setItem('token', response.data.token);
-                    navigate('/');
-                } else if (response.data.code === '200') {
-                    localStorage.setItem('token', response.data.data);
-                    navigate('/');
+                    navigate('/', { replace: true });
                 } else {
-                    setError(response.data.message || 'Ошибка авторизации через GitHub');
+                    setError('Ошибка авторизации через GitHub');
                 }
             } catch (err) {
                 setError(err.response?.data?.message || 'Ошибка при авторизации через GitHub');
             }
         };
 
-        handleCallback();
+        handleCallback().then();
     }, [searchParams, navigate]);
 
     return (
@@ -44,7 +46,7 @@ export default function GitHubCallback() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%)',
+                bgcolor: 'background.default',
             }}
         >
             {error ? (
@@ -54,7 +56,7 @@ export default function GitHubCallback() {
                     action={
                         <Typography
                             component="a"
-                            href="/login"
+                            onClick={() => navigate('/login')}
                             sx={{ color: 'inherit', ml: 2 }}
                         >
                             Вернуться

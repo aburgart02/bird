@@ -38,11 +38,13 @@ CREATE TABLE `users` (
   `id` binary(16) NOT NULL,
   `name` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) NULL DEFAULT '',
+  `github_id` varchar(50) NULL,
   `created` int NOT NULL,
   `last_visit_id` binary(16) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_key` (`email`) USING BTREE,
+  KEY `idx_github_id` (`github_id`),
   KEY `fk_users_last_visit1_idx` (`last_visit_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`last_visit_id`) REFERENCES `last_visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

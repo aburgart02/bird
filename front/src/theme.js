@@ -5,13 +5,9 @@ const theme = createTheme({
         mode: 'dark',
         primary: {
             main: '#6366f1',
-            light: '#818cf8',
-            dark: '#4f46e5',
         },
         secondary: {
             main: '#ec4899',
-            light: '#f472b6',
-            dark: '#db2777',
         },
         background: {
             default: '#0f0f23',
@@ -23,7 +19,7 @@ const theme = createTheme({
         },
     },
     typography: {
-        fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+        fontFamily: '"Inter", sans-serif',
         h1: {
             fontWeight: 700,
             letterSpacing: '-0.02em',
@@ -69,7 +65,7 @@ const theme = createTheme({
                             backgroundColor: 'rgba(255, 255, 255, 0.1)',
                         },
                         '& input': {
-                            '&:-webkit-autofill, &:-webkit-autofill:hover, &:-webkit-autofill:focus, &:-webkit-autofill:active': {
+                            '&:-webkit-autofill': {
                                 WebkitTextFillColor: '#f1f5f9',
                                 WebkitBoxShadow: '0 0 0 1000px transparent inset',
                                 transition: 'background-color 50000s ease-in-out 0s',
