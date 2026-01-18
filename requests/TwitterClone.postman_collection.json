@@ -1,42 +1,11 @@
 {
 	"info": {
-		"_postman_id": "68f2ad43-9d8a-4e25-b349-f2faa6fba4f9",
+		"_postman_id": "9a54d2e4-d2de-446c-a1f1-67cfe84a6f97",
 		"name": "TwitterClone",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34071552"
 	},
 	"item": [
-		{
-			"name": "Get All Messages for Producer",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:9001/messages/producer/6e27ea06-a716-4c89-af88-813749a8bd48",
-					"host": [
-						"localhost"
-					],
-					"port": "9001",
-					"path": [
-						"messages",
-						"producer",
-						"6e27ea06-a716-4c89-af88-813749a8bd48"
-					]
-				}
-			},
-			"response": []
-		},
 		{
 			"name": "Get All Messages for Subscriber",
 			"protocolProfileBehavior": {
@@ -64,6 +33,38 @@
 						"messages",
 						"subscriber",
 						"70A64B54-43C3-4C18-BBEC-64590FF7E0CC"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Messages for Producer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9001/messages/producer/6e27ea06-a716-4c89-af88-813749a8bd48",
+					"host": [
+						"localhost"
+					],
+					"port": "9001",
+					"path": [
+						"messages",
+						"producer",
+						"6e27ea06-a716-4c89-af88-813749a8bd48"
 					]
 				}
 			},
@@ -241,6 +242,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
