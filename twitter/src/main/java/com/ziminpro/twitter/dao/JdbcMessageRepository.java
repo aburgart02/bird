@@ -30,12 +30,12 @@ public class JdbcMessageRepository implements MessageRepository {
     }
 
     @Override
-    public List<Message> getMessagesForProducerById(UUID prodicerId) {
+    public List<Message> getMessagesForProducerById(UUID producerId) {
         List<Message> messages = jdbcTemplate.query(Constants.GET_MESSAGES_FOR_PRODUCER,
                 (rs, rowNum) -> new Message(DaoHelper.bytesArrayToUuid(rs.getBytes("messages.id")),
                         DaoHelper.bytesArrayToUuid(rs.getBytes("messages.producer_id")),
                         rs.getString("messages.content"), rs.getLong("messages.created")),
-                prodicerId.toString());
+                producerId.toString());
 
         return Optional.of(messages).orElse(new ArrayList<>());
     }
@@ -56,7 +56,7 @@ public class JdbcMessageRepository implements MessageRepository {
         message.setTimestamp(Instant.now().getEpochSecond());
         // check for empty message
         if ((message.getAuthor() == null || message.getContent() == null)
-                & this.createProducer(message.getAuthor()) == null)
+                && this.createProducer(message.getAuthor()) == null)
             return null;
 
         try {

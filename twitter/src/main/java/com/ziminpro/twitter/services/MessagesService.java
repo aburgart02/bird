@@ -32,11 +32,10 @@ public class MessagesService {
     @Value("${ums.paths.user}")
     private String uriUser;
 
-    Map<String, Object> response = new HashMap<>();
+    public Mono<ResponseEntity<Map<String, Object>>> createMessage(Message message, String token) {
+        return umsConnector.retrieveUmsData(uriUser + "/" + message.getAuthor().toString(), token).flatMap(res -> {
+            Map<String, Object> response = new HashMap<>();
 
-    public Mono<ResponseEntity<Map<String, Object>>> createMessage(Message message) {
-        return umsConnector.retrieveUmsData(uriUser + "/" + message.getAuthor().toString())
-            .flatMap(res -> {
             UUID messageId = null;
             User user = HttpResponseExtractor.extractDataFromHttpClientResponse(res, User.class);
 
@@ -58,6 +57,8 @@ public class MessagesService {
     }
 
     public Mono<ResponseEntity<Map<String, Object>>> getMessagebyId(UUID messageId) {
+        Map<String, Object> response = new HashMap<>();
+
         Message message = messageRepository.getMessagebyId(messageId);
         if (message.getId() == null) {
             response.put(Constants.CODE, "404");
@@ -74,6 +75,8 @@ public class MessagesService {
     }
 
     public Mono<ResponseEntity<Map<String, Object>>> getMessagesForProducerById(UUID producerId) {
+        Map<String, Object> response = new HashMap<>();
+
         List<Message> messages = messageRepository.getMessagesForProducerById(producerId);
         if (messages.size() == 0) {
             response.put(Constants.CODE, "404");
@@ -89,8 +92,10 @@ public class MessagesService {
 
     }
 
-    public Mono<ResponseEntity<Map<String, Object>>> getMessagesForSubscriberById(UUID subscriberId) {
-        return umsConnector.retrieveUmsData(uriUser + "/" + subscriberId.toString()).flatMap(res -> {
+    public Mono<ResponseEntity<Map<String, Object>>> getMessagesForSubscriberById(UUID subscriberId, String token) {
+        return umsConnector.retrieveUmsData(uriUser + "/" + subscriberId.toString(), token).flatMap(res -> {
+            Map<String, Object> response = new HashMap<>();
+
             User user = HttpResponseExtractor.extractDataFromHttpClientResponse(res, User.class);
             List<Message> messages = new ArrayList<>();
 
@@ -112,6 +117,8 @@ public class MessagesService {
     }
 
     public Mono<ResponseEntity<Map<String, Object>>> deleteMessageById(UUID messageId) {
+        Map<String, Object> response = new HashMap<>();
+
         int result = messageRepository.deleteMessageById(messageId);
         if (result != 1) {
             response.put(Constants.CODE, "500");

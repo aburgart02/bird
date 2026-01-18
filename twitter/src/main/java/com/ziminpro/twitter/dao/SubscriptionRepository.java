@@ -8,5 +8,5 @@ public interface SubscriptionRepository {
     public Subscription getSubscription(UUID subscriberId);
     public boolean createSubscription(Subscription subscription);
     public boolean updateSubscription(Subscription subscription);
-    public boolean deleteSubscription(UUID subscriberId);
+    public boolean deleteSubscriptions(UUID subscriberId);
 }

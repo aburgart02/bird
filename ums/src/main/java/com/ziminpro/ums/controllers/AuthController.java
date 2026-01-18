@@ -187,23 +187,10 @@ AuthController {
 
     @GetMapping("/me")
     public Mono<ResponseEntity<Map<String, Object>>> getCurrentUser(
-            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+            @RequestHeader(value = "Authorization") String authHeader) {
         Map<String, Object> response = new HashMap<>();
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            response.put(Constants.CODE, "401");
-            response.put(Constants.MESSAGE, "Требуется авторизация");
-            return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response));
-        }
-
         String token = authHeader.substring(7);
-
-        if (!jwtUtil.validateToken(token)) {
-            response.put(Constants.CODE, "401");
-            response.put(Constants.MESSAGE, "Недействительный токен");
-            return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response));
-        }
-
         UUID userId = jwtUtil.extractUserId(token);
         User user = umsRepository.findUserByID(userId);
 

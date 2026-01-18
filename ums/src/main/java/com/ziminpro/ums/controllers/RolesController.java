@@ -21,10 +21,10 @@ public class RolesController {
     @Autowired
     private UmsRepository umsRepository;
 
-    Map<String, Object> response = new HashMap<>();
-
     @RequestMapping(method = RequestMethod.GET, path = "/roles")
     public Mono<ResponseEntity<Map<String, Object>>> getAllRoles() {
+        Map<String, Object> response = new HashMap<>();
+
         Map<String, Roles> roles = umsRepository.findAllRoles();
         if (roles == null) {
             response.put(Constants.CODE, "500");

@@ -7,12 +7,9 @@ import com.ziminpro.twitter.dtos.Constants;
 import com.ziminpro.twitter.dtos.Message;
 import com.ziminpro.twitter.services.MessagesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import reactor.core.publisher.Mono;
 
@@ -36,13 +33,16 @@ public class MessageController {
 
     @RequestMapping(method = RequestMethod.GET, path = Constants.URI_SUBSCRIBER + "/{subscriber-id}")
     public Mono<ResponseEntity<Map<String, Object>>> getMessagesForSubscriberById(
-            @PathVariable(value = "subscriber-id", required = true) String subscriberId) {
-        return messages.getMessagesForSubscriberById(UUID.fromString(subscriberId));
+            @PathVariable(value = "subscriber-id", required = true) String subscriberId,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return messages.getMessagesForSubscriberById(UUID.fromString(subscriberId), token);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = Constants.URI_MESSAGE, consumes = Constants.APPLICATION_JSON)
-    public Mono<ResponseEntity<Map<String, Object>>> createMessage(@RequestBody Message message) {
-        return messages.createMessage(message);
+    public Mono<ResponseEntity<Map<String, Object>>> createMessage(
+            @RequestBody Message message,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return messages.createMessage(message, token);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = Constants.URI_MESSAGE + "/{message-id}")

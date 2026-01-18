@@ -47,7 +47,7 @@ public class Constants {
         public static final String CREATE_SUBSCRIPTION = "INSERT IGNORE INTO " + TABLE_SUBSCRIPTIONS
                         + " (`subscriber_id`,`producer_id`) VALUES(UUID_TO_BIN(?),UUID_TO_BIN(?));";
         public static final String DELETE_MESSAGE = "DELETE FROM " + TABLE_MESSAGES + " WHERE `id`=UUID_TO_BIN(?);";
-        public static final String DELETE_SUBSCRIPTION = "DELETE FROM " + TABLE_SUBSCRIPTIONS
+        public static final String DELETE_SUBSCRIPTIONS = "DELETE FROM " + TABLE_SUBSCRIPTIONS
                         + " WHERE `subscriber_id`=UUID_TO_BIN(?);";
         public static final String GET_SUBSCRIPTION = "SELECT * FROM " + TABLE_SUBSCRIPTIONS
                         + " WHERE subscriber_id=UUID_TO_BIN(?);";

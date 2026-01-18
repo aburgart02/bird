@@ -24,10 +24,10 @@ public class UserController {
     @Autowired
     private UmsRepository umsRepository;
 
-    Map<String, Object> response = new HashMap<>();
-
     @RequestMapping(method = RequestMethod.GET, path = "/users")
     public Mono<ResponseEntity<Map<String, Object>>> getAllUsers() {
+        Map<String, Object> response = new HashMap<>();
+
         Map<UUID, User> users = umsRepository.findAllUsers();
         if (users == null) {
             response.put(Constants.CODE, "500");
@@ -44,6 +44,8 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/users/user/{user-id}")
     public Mono<ResponseEntity<Map<String, Object>>> getUser(@PathVariable(value = "user-id", required = true) String userId) {
+        Map<String, Object> response = new HashMap<>();
+
         User user = umsRepository.findUserByID(UUID.fromString(userId));
         if (user.getId() == null) {
             response.put(Constants.CODE, "404");
@@ -60,6 +62,8 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/users/user", consumes = Constants.APPLICATION_JSON)
     public Mono<ResponseEntity<Map<String, Object>>> createUser(@RequestBody User user) {
+        Map<String, Object> response = new HashMap<>();
+
         UUID userId = umsRepository.createUser(user);
         if (userId == null) {
             response.put(Constants.CODE, "500");
@@ -76,6 +80,8 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/users/user/{user-id}")
     public Mono<ResponseEntity<Map<String, Object>>> deleteUser(@PathVariable(value = "user-id", required = true) String userId) {
+        Map<String, Object> response = new HashMap<>();
+
         int result = umsRepository.deleteUser(UUID.fromString(userId));
         if (result != 1) {
             response.put(Constants.CODE, "500");

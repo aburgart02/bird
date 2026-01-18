@@ -10,12 +10,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JdbcSupsriptionRepository implements SubscriptionRepository {
+public class JdbcSubscriptionRepository implements SubscriptionRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private JdbcMessageRepository jdbcMessageRepository;
 
     @Override
     public boolean createSubscription(Subscription subscription) {
@@ -29,7 +26,7 @@ public class JdbcSupsriptionRepository implements SubscriptionRepository {
                 if (producerId == null) {
                     return;
                 }
-                if (jdbcMessageRepository.createProducer(producerId) != null) {
+                if (createProducer(producerId) != null) {
                     jdbcTemplate.update(Constants.CREATE_SUBSCRIPTION, subscription.getSubscriber().toString(),
                             producerId.toString());
                 }
@@ -42,7 +39,7 @@ public class JdbcSupsriptionRepository implements SubscriptionRepository {
 
     @Override
     public boolean updateSubscription(Subscription subscription) {
-        this.deleteSubscription(subscription.getSubscriber());
+        this.deleteSubscriptions(subscription.getSubscriber());
         return this.createSubscription(subscription);
     }
 
@@ -76,9 +73,9 @@ public class JdbcSupsriptionRepository implements SubscriptionRepository {
     }
 
     @Override
-    public boolean deleteSubscription(UUID subscriberId) {
+    public boolean deleteSubscriptions(UUID subscriberId) {
         try {
-            jdbcTemplate.update(Constants.DELETE_SUBSCRIPTION, subscriberId.toString());
+            jdbcTemplate.update(Constants.DELETE_SUBSCRIPTIONS, subscriberId.toString());
         } catch (Exception e) {
             return false;
         }
@@ -92,5 +89,14 @@ public class JdbcSupsriptionRepository implements SubscriptionRepository {
             return null;
         }
         return subscriberId;
+    }
+
+    UUID createProducer(UUID producerID) {
+        try {
+            jdbcTemplate.update(Constants.CREATE_PRODUCER, producerID.toString());
+        } catch (Exception e) {
+            return null;
+        }
+        return producerID;
     }
 }
