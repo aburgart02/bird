@@ -37,6 +37,11 @@ spec:
                 secretKeyRef:
                   name: bird-secrets
                   key: DB_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: bird-secrets
+                  key: JWT_SECRET
             - name: CORS_ORIGINS
               valueFrom:
                 configMapKeyRef:
